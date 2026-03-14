@@ -1,0 +1,10 @@
+NEED INFO?
+
+color code : 
+
+"Princeton Orange":"ff8811",
+"Dark Wine":"7b2d26",
+"Black":"000300",
+"Bright Marine":"296eb4",
+"Porcelain":"fbfef9"
+
