@@ -1,10 +1,14 @@
 import { useState } from "react"
 import Card  from '../components/ProductCard'
 import { Button } from '../components/Button'
+import '../styles.css'
 
 export default function Build() {
     const [priceRange, setPriceRange] = useState(2000);
     const [brand, setBrand] = useState([]);
+
+    const [sortBy, setSortBy] = useState([]);
+
     const [selectedCategory, setSelectedCategory] = useState("");
     const [selectedComponents, setSelectedComponents] = useState([]);
 
@@ -25,19 +29,27 @@ export default function Build() {
     }
 
     function getCategoryButtonClass(category) {
-        return `w-30 flex items-center justify-center rounded-lg px-3 py-2 border transition ${
+        return `w-30 flex items-center justify-center rounded-[25px] px-3 py-2 transition hover:bg-gray-100 ${
             selectedCategory === category
-                ? "border-blue-700 bg-blue-50 text-blue-800"
-                : "border-gray-300 bg-white text-black"
+                ? "border-[#296eb4] bg-[#296eb4] !text-white"
+                : ""
+        }`;
+    }
+
+    function getSortByButtonClass(sortOption) {
+        return `w-full flex items-center justify-start rounded-[15px] px-3 py-2 transition hover:bg-gray-100 ${
+            sortBy === sortOption
+                ? "border-gray-300 bg-gray-300"
+                : ""
         }`;
     }
 
     return (
     <>
         {/* <Button text="Back to Home" color="#296eb4" holdcolor="#296eb4" /> */}
-        <div className="flex flex-col justify-center px-10 py-15 gap-5 text-black bg-gradient-to-br from-white from-50% to-[#296eb4] border-y-1 border-[#296eb4]">
+        <div className="flex flex-col justify-center px-10 py-15 gap-5 text-black bg-gradient-to-br from-white from-50% to-[#296eb4] border-y-1 border-gray-300">
             <h1>Build & Order</h1>
-            <p>Choose your components and create your custom PC build</p>
+            <p className="!text-[var(--text-muted)] !text-[25px]">Choose your components and create your custom PC build</p>
         </div>
 
         <div className="grid grid-cols-3 gap-10 p-10 bg-[#fbfef9]">
@@ -50,7 +62,10 @@ export default function Build() {
                             <input type="text" placeholder="Search parts..." 
                                 className="w-full outline-none border-none"
                             />
-                            <button type="submit">Search</button>
+                            <button type="submit" className="flex items-center gap-1">
+                                <span className="material-symbols-outlined text-[20px]">search</span>
+                                Search
+                            </button>
                         </form>
                     </search>
 
@@ -59,7 +74,7 @@ export default function Build() {
                         <div className="flex flex-col gap-2">
                             <p>Price Range : 0$ - {priceRange}$</p>
                             <div>
-                                <div className="flex flex-row justify-between">
+                                <div className="flex flex-row justify-between !text-[var(--text-muted)]">
                                     <p>0$</p>
                                     <p>2000$</p>
                                 </div>
@@ -103,17 +118,18 @@ export default function Build() {
                             <p>Sort by</p>
                             <nav>
                                 <ul className="flex flex-col gap-2">
-                                    <li><button className="text-left w-full p-2">Price: Low to High</button></li>
-                                    <li><button className="text-left w-full p-2">Price: High to Low</button></li>
-                                    <li><button className="text-left w-full p-2">Highest Rating</button></li>
-                                    <li><button className="text-left w-full p-2">Name (A-Z)</button></li>
+                                    <li><button className={getSortByButtonClass("price-low-to-high")} onClick={() => setSortBy("price-low-to-high")}>Price: Low to High</button></li>
+                                    <li><button className={getSortByButtonClass("price-high-to-low")} onClick={() => setSortBy("price-high-to-low")}>Price: High to Low</button></li>
+                                    <li><button className={getSortByButtonClass("highest-rating")} onClick={() => setSortBy("highest-rating")}>Highest Rating</button></li>
+                                    <li><button className={getSortByButtonClass("name-az")} onClick={() => setSortBy("name-az")}>Name (A-Z)</button></li>
                                 </ul>
+                                {/* <p>sort selected: {sortBy}</p> */}
                             </nav>
                         </div>
                     </div>
                 </div>
             
-                {/* parts selection */}
+                {/* category selection */}
                 <nav>
                     <ul className="flex gap-5">
                         <li><button className={getCategoryButtonClass("CPU")} onClick={() => setSelectedCategory("CPU")}>CPU</button></li>
@@ -135,20 +151,28 @@ export default function Build() {
                 {selectedComponents.length === 0 && (
                     <div className="flex flex-col gap-5 items-center justify-center border-1 border-gray-300 rounded-[15px] px-10 py-20">
                         <h1>Start Your Build</h1>
-                        <p className="text-center">
+                        <p className="text-center !text-[var(--text-muted)]">
                             No parts selected yet. Begin by choosing a CPU to start building your perfect PC.
                         </p>
-                        <button className="flex py-2 px-4 border-1 bg-[#296eb4] text-white rounded-lg" 
-                        onClick={() => setSelectedCategory("CPU")}>
+                        <button className="flex py-2 px-4 border-1 bg-[#296eb4] !text-white rounded-lg gap-2 items-center" 
+                            onClick={() => setSelectedCategory("CPU")}>
                             Browse CPUs
+                            <span className="material-symbols-outlined !text-white">
+                                arrow_forward
+                            </span>
                         </button>
                     </div>
                 )}
 
                 {/* show the selected components */}
-                <div>
+                {selectedComponents.length > 0 && (
+                    <div>
+                        <h1>Selected Components</h1>
+                        {/* {selectedComponents.map((component, index) => (
+                        ))} */}
+                    </div>
+                )}
 
-                </div>
             </div>            
 
         </div>
