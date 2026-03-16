@@ -48,6 +48,10 @@ export default function Build() {
         }`;
     }
 
+    function handleAddToBuild(component) {
+        setSelectedComponents((prev) => [...prev, component]);
+    }
+
     return (
     <>
 
@@ -176,8 +180,16 @@ export default function Build() {
                 {selectedComponents.length > 0 && (
                     <div>
                         <h1>Selected Components</h1>
-                        {/* {selectedComponents.map((component, index) => (
-                        ))} */}
+                        {selectedComponents.map((component, index) => (
+                            <div key={index} className="flex items-center gap-3 border-1 border-gray-300 rounded-[15px] p-3 my-2">
+                                <img src={component.image} alt={component.name} className="w-16 h-16 object-cover rounded-lg" />
+                                <div>
+                                    <h3 className="font-bold">{component.name}</h3>
+                                    <p className="text-lg font-extrabold">${component.price.toFixed(2)}</p>
+                                </div>
+                            </div>
+
+                        ))}
                     </div>
                 )}
 
@@ -188,35 +200,35 @@ export default function Build() {
         {/* card for different components and the price and the add to build button */}
         <div>
             {selectedCategory === "CPU" && (
-                cardRenderer("CPU", inStockCpu, priceRange, brand)
+                cardRenderer("CPU", inStockCpu, priceRange, brand, handleAddToBuild)
             )}
             {selectedCategory === "GPU" && (
-                cardRenderer("GPU", inStockGpu, priceRange, brand)
+                cardRenderer("GPU", inStockGpu, priceRange, brand, handleAddToBuild)
             )}
             {selectedCategory === "RAM" && (
-                cardRenderer("RAM", inStockRam, priceRange, brand)
+                cardRenderer("RAM", inStockRam, priceRange, brand, handleAddToBuild)
             )}
             {selectedCategory === "Storage" && (
-                cardRenderer("Storage", inStockStorage, priceRange, brand)
+                cardRenderer("Storage", inStockStorage, priceRange, brand, handleAddToBuild)
             )}
             {selectedCategory === "Motherboard" && (
-                cardRenderer("Motherboard", inStockMotherboard, priceRange, brand)
+                cardRenderer("Motherboard", inStockMotherboard, priceRange, brand, handleAddToBuild)
             )}
             {selectedCategory === "PSU" && (
-                cardRenderer("PSU", inStockPsu, priceRange, brand)
+                cardRenderer("PSU", inStockPsu, priceRange, brand, handleAddToBuild)
             )}
             {selectedCategory === "Cases" && (
-                cardRenderer("Cases", inStockCases, priceRange, brand)
+                cardRenderer("Cases", inStockCases, priceRange, brand, handleAddToBuild)
             )}
             {selectedCategory === "Cooler" && (
-                cardRenderer("Cooler", inStockCooler, priceRange, brand)
+                cardRenderer("Cooler", inStockCooler, priceRange, brand, handleAddToBuild)
             )}
         </div>
     </>
     )
 }
 
-function cardRenderer(category, inStockComponents, priceRange, brand) {
+function cardRenderer(category, inStockComponents, priceRange, brand, onAddToBuild) {
     return (
         <div className="w-full px-10">
             <h1 className="mb-6">{category}</h1>
@@ -226,6 +238,7 @@ function cardRenderer(category, inStockComponents, priceRange, brand) {
                         <Card
                             key={index}
                             ProductData={component}
+                            addToBuild={() => onAddToBuild(component)}
                         />
                     ) : null
                 )}

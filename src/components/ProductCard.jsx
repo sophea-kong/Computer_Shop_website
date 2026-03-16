@@ -11,7 +11,7 @@ function Tags({ text }){
 
 
 
-function ProductCard({ ProductData }){
+function ProductCard({ ProductData, addToBuild }){
     return (
         <>
             <div className="flex-col gap-2 border-1 border-stone-400 items-center justify-center w-80 h-auto rounded-lg">
@@ -37,7 +37,7 @@ function ProductCard({ ProductData }){
                     </div>
                     <div className="flex p-5">
                         <p className="flex text-[#296eb4] p-4 font-extrabold text-xl mr-auto">{ProductData.price + "$"}</p>
-                        <Button text="Add to build" color="#296eb4" holdcolor="#296eb4"/>
+                        <Button text="Add to build" color="#296eb4" holdcolor="#296eb4" addToBuild={addToBuild}/>
                     </div> 
                 </div>
             </div>
