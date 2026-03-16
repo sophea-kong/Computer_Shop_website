@@ -2,6 +2,10 @@ import { useState } from "react"
 import Card  from '../components/ProductCard'
 import { Button } from '../components/Button'
 import '../styles.css'
+import Navbar from '../components/NavBar'
+import {Cpu,ShoppingCart} from 'lucide-react'
+
+import { CPUS } from '../assets/data/productsdata'
 
 export default function Build() {
     const [priceRange, setPriceRange] = useState(2000);
@@ -12,7 +16,7 @@ export default function Build() {
     const [selectedCategory, setSelectedCategory] = useState("");
     const [selectedComponents, setSelectedComponents] = useState([]);
 
-    const [inStockCpu , setInStockCpu] = useState([]);
+    const [inStockCpu , setInStockCpu] = useState(CPUS);
     const [inStockGpu , setInStockGpu] = useState([]);
     const [inStockRam , setInStockRam] = useState([]);
     const [inStockStorage , setInStockStorage] = useState([]);
@@ -46,6 +50,9 @@ export default function Build() {
 
     return (
     <>
+
+        <Navbar></Navbar>
+
         {/* <Button text="Back to Home" color="#296eb4" holdcolor="#296eb4" /> */}
         <div className="flex flex-col justify-center px-10 py-15 gap-5 text-black bg-gradient-to-br from-white from-50% to-[#296eb4] border-y-1 border-gray-300">
             <h1>Build & Order</h1>
@@ -150,6 +157,7 @@ export default function Build() {
                 {/* hide if the user has selected at least one component */}
                 {selectedComponents.length === 0 && (
                     <div className="flex flex-col gap-5 items-center justify-center border-1 border-gray-300 rounded-[15px] px-10 py-20">
+                        
                         <h1>Start Your Build</h1>
                         <p className="text-center !text-[var(--text-muted)]">
                             No parts selected yet. Begin by choosing a CPU to start building your perfect PC.
@@ -180,44 +188,48 @@ export default function Build() {
         {/* card for different components and the price and the add to build button */}
         <div>
             {selectedCategory === "CPU" && (
-                cardRenderer("CPU", inStockCpu)
+                cardRenderer("CPU", inStockCpu, priceRange, brand)
             )}
             {selectedCategory === "GPU" && (
-                cardRenderer("GPU", inStockGpu)
+                cardRenderer("GPU", inStockGpu, priceRange, brand)
             )}
             {selectedCategory === "RAM" && (
-                cardRenderer("RAM", inStockRam)
+                cardRenderer("RAM", inStockRam, priceRange, brand)
             )}
             {selectedCategory === "Storage" && (
-                cardRenderer("Storage", inStockStorage)
+                cardRenderer("Storage", inStockStorage, priceRange, brand)
             )}
             {selectedCategory === "Motherboard" && (
-                cardRenderer("Motherboard", inStockMotherboard)
+                cardRenderer("Motherboard", inStockMotherboard, priceRange, brand)
             )}
             {selectedCategory === "PSU" && (
-                cardRenderer("PSU", inStockPsu)
+                cardRenderer("PSU", inStockPsu, priceRange, brand)
             )}
             {selectedCategory === "Cases" && (
-                cardRenderer("Cases", inStockCases)
+                cardRenderer("Cases", inStockCases, priceRange, brand)
             )}
             {selectedCategory === "Cooler" && (
-                cardRenderer("Cooler", inStockCooler)
+                cardRenderer("Cooler", inStockCooler, priceRange, brand)
             )}
         </div>
     </>
     )
 }
 
-function cardRenderer(category, inStockComponents) {
+function cardRenderer(category, inStockComponents, priceRange, brand) {
     return (
-        <div>
-            {inStockComponents.map((component, index) => (
-                <Card
-                    key={index}
-                    ProductData={component}
-                />
-            ))}
-            <h1>{category}</h1>
+        <div className="w-full px-10">
+            <h1 className="mb-6">{category}</h1>
+            <div className="flex gap-10">
+                {inStockComponents.map((component, index) =>
+                    component.price <= priceRange && (brand.length === 0 || brand.includes(component.category)) ? (
+                        <Card
+                            key={index}
+                            ProductData={component}
+                        />
+                    ) : null
+                )}
+            </div>
         </div>
     )
 }
