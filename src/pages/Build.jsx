@@ -31,7 +31,7 @@ export default function Build() {
     const [priceRange, setPriceRange] = useState(2000);
     const [brand, setBrand] = useState([]);
 
-    const [sortBy, setSortBy] = useState([]);
+    const [sortBy, setSortBy] = useState("");
 
     const [selectedCategory, setSelectedCategory] = useState("");
     const [selectedBuild, setSelectedBuild] = useState(INITIAL_SELECTED_BUILD);
@@ -240,56 +240,79 @@ export default function Build() {
         {/* card for different components and the price and the add to build button */}
         <div>
             {selectedCategory === "CPU" && (
-                cardRenderer("CPU", inStockCpu, priceRange, brand, handleAddToBuild, selectedBuild)
+                cardRenderer("CPU", inStockCpu, priceRange, brand, handleAddToBuild, selectedBuild, sortBy)
             )}
             {selectedCategory === "GPU" && (
-                cardRenderer("GPU", inStockGpu, priceRange, brand, handleAddToBuild, selectedBuild)
+                cardRenderer("GPU", inStockGpu, priceRange, brand, handleAddToBuild, selectedBuild, sortBy)
             )}
             {selectedCategory === "RAM" && (
-                cardRenderer("RAM", inStockRam, priceRange, brand, handleAddToBuild, selectedBuild)
+                cardRenderer("RAM", inStockRam, priceRange, brand, handleAddToBuild, selectedBuild, sortBy)
             )}
             {selectedCategory === "Storage" && (
-                cardRenderer("Storage", inStockStorage, priceRange, brand, handleAddToBuild, selectedBuild)
+                cardRenderer("Storage", inStockStorage, priceRange, brand, handleAddToBuild, selectedBuild, sortBy)
             )}
             {selectedCategory === "Motherboard" && (
-                cardRenderer("Motherboard", inStockMotherboard, priceRange, brand, handleAddToBuild, selectedBuild)
+                cardRenderer("Motherboard", inStockMotherboard, priceRange, brand, handleAddToBuild, selectedBuild, sortBy)
             )}
             {selectedCategory === "PSU" && (
-                cardRenderer("PSU", inStockPsu, priceRange, brand, handleAddToBuild, selectedBuild)
+                cardRenderer("PSU", inStockPsu, priceRange, brand, handleAddToBuild, selectedBuild, sortBy)
             )}
             {selectedCategory === "Cases" && (
-                cardRenderer("Cases", inStockCases, priceRange, brand, handleAddToBuild, selectedBuild)
+                cardRenderer("Cases", inStockCases, priceRange, brand, handleAddToBuild, selectedBuild, sortBy)
             )}
             {selectedCategory === "Cooler" && (
-                cardRenderer("Cooler", inStockCooler, priceRange, brand, handleAddToBuild, selectedBuild)
+                cardRenderer("Cooler", inStockCooler, priceRange, brand, handleAddToBuild, selectedBuild, sortBy)
             )}
         </div>
     </>
     )
 }
 
-function cardRenderer(category, inStockComponents, priceRange, brand, onAddToBuild, selectedBuild) {
+function cardRenderer(category, inStockComponents, priceRange, brand, onAddToBuild, selectedBuild, sortBy) {
     const selectedInCategory = selectedBuild[category];
+    const filteredComponents = inStockComponents.filter(
+        (component) =>
+            component.price <= priceRange &&
+            (brand.length === 0 || brand.includes(component.category))
+    );
+
+    const sortedComponents = [...filteredComponents].sort((a, b) => {
+        if (sortBy === "price-low-to-high") {
+            return a.price - b.price;
+        }
+
+        if (sortBy === "price-high-to-low") {
+            return b.price - a.price;
+        }
+
+        if (sortBy === "highest-rating") {
+            return b.rating - a.rating;
+        }
+
+        if (sortBy === "name-az") {
+            return a.name.localeCompare(b.name);
+        }
+
+        return 0;
+    });
 
     return (
         <div className="w-full px-10">
             <h1 className="mb-6">{category}</h1>
             <div className="flex gap-10">
-                {inStockComponents.map((component, index) =>
-                    component.price <= priceRange && (brand.length === 0 || brand.includes(component.category)) ? (
-                        <Card
-                            key={index}
-                            ProductData={component}
-                            isSelected={
-                                Boolean(selectedInCategory) &&
-                                selectedInCategory.name === component.name &&
-                                selectedInCategory.price === component.price &&
-                                selectedInCategory.image === component.image
-                            }
-                            addToBuild={() => onAddToBuild(category, component)}
-                        />
-                    ) : null
-                )}
+                {sortedComponents.map((component, index) => (
+                    <Card
+                        key={index}
+                        ProductData={component}
+                        isSelected={
+                            Boolean(selectedInCategory) &&
+                            selectedInCategory.name === component.name &&
+                            selectedInCategory.price === component.price &&
+                            selectedInCategory.image === component.image
+                        }
+                        addToBuild={() => onAddToBuild(category, component)}
+                    />
+                ))}
             </div>
         </div>
     )
