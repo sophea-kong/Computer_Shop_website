@@ -30,6 +30,7 @@ const INITIAL_SELECTED_BUILD = {
 export default function Build() {
     const [priceRange, setPriceRange] = useState(2000);
     const [brand, setBrand] = useState([]);
+    const [searchQuery, setSearchQuery] = useState("");
 
     const [sortBy, setSortBy] = useState("");
 
@@ -111,9 +112,17 @@ export default function Build() {
                 <div className="flex flex-col gap-8">
                     {/* search parts */}
                     <search className="bg-gray-100 rounded-lg p-3">
-                        <form action="" className="w-full flex flex-row gap-2">
-                            <input type="text" placeholder="Search parts..." 
+                        <form
+                            action=""
+                            className="w-full flex flex-row gap-2"
+                            onSubmit={(event) => event.preventDefault()}
+                        >
+                            <input
+                                type="text"
+                                placeholder="Search parts..."
                                 className="w-full outline-none border-none"
+                                value={searchQuery}
+                                onChange={(event) => setSearchQuery(event.target.value)}
                             />
                             <button type="submit" className="flex items-center gap-1">
                                 <span className="material-symbols-outlined text-[20px]">search</span>
@@ -240,40 +249,52 @@ export default function Build() {
         {/* card for different components and the price and the add to build button */}
         <div>
             {selectedCategory === "CPU" && (
-                cardRenderer("CPU", inStockCpu, priceRange, brand, handleAddToBuild, selectedBuild, sortBy)
+                cardRenderer("CPU", inStockCpu, priceRange, brand, handleAddToBuild, selectedBuild, sortBy, searchQuery)
             )}
             {selectedCategory === "GPU" && (
-                cardRenderer("GPU", inStockGpu, priceRange, brand, handleAddToBuild, selectedBuild, sortBy)
+                cardRenderer("GPU", inStockGpu, priceRange, brand, handleAddToBuild, selectedBuild, sortBy, searchQuery)
             )}
             {selectedCategory === "RAM" && (
-                cardRenderer("RAM", inStockRam, priceRange, brand, handleAddToBuild, selectedBuild, sortBy)
+                cardRenderer("RAM", inStockRam, priceRange, brand, handleAddToBuild, selectedBuild, sortBy, searchQuery)
             )}
             {selectedCategory === "Storage" && (
-                cardRenderer("Storage", inStockStorage, priceRange, brand, handleAddToBuild, selectedBuild, sortBy)
+                cardRenderer("Storage", inStockStorage, priceRange, brand, handleAddToBuild, selectedBuild, sortBy, searchQuery)
             )}
             {selectedCategory === "Motherboard" && (
-                cardRenderer("Motherboard", inStockMotherboard, priceRange, brand, handleAddToBuild, selectedBuild, sortBy)
+                cardRenderer("Motherboard", inStockMotherboard, priceRange, brand, handleAddToBuild, selectedBuild, sortBy, searchQuery)
             )}
             {selectedCategory === "PSU" && (
-                cardRenderer("PSU", inStockPsu, priceRange, brand, handleAddToBuild, selectedBuild, sortBy)
+                cardRenderer("PSU", inStockPsu, priceRange, brand, handleAddToBuild, selectedBuild, sortBy, searchQuery)
             )}
             {selectedCategory === "Cases" && (
-                cardRenderer("Cases", inStockCases, priceRange, brand, handleAddToBuild, selectedBuild, sortBy)
+                cardRenderer("Cases", inStockCases, priceRange, brand, handleAddToBuild, selectedBuild, sortBy, searchQuery)
             )}
             {selectedCategory === "Cooler" && (
-                cardRenderer("Cooler", inStockCooler, priceRange, brand, handleAddToBuild, selectedBuild, sortBy)
+                cardRenderer("Cooler", inStockCooler, priceRange, brand, handleAddToBuild, selectedBuild, sortBy, searchQuery)
             )}
         </div>
     </>
     )
 }
 
-function cardRenderer(category, inStockComponents, priceRange, brand, onAddToBuild, selectedBuild, sortBy) {
+function cardRenderer(category, inStockComponents, priceRange, brand, onAddToBuild, selectedBuild, sortBy, searchQuery) {
     const selectedInCategory = selectedBuild[category];
+    const normalizedQuery = searchQuery.trim().toLowerCase();
+
     const filteredComponents = inStockComponents.filter(
-        (component) =>
+        (component) => {
+            const matchesSearch =
+                normalizedQuery.length === 0 ||
+                component.name.toLowerCase().includes(normalizedQuery) ||
+                component.category.toLowerCase().includes(normalizedQuery) ||
+                component.tags.some((tag) => tag.toLowerCase().includes(normalizedQuery));
+
+            return (
             component.price <= priceRange &&
-            (brand.length === 0 || brand.includes(component.category))
+            (brand.length === 0 || brand.includes(component.category)) &&
+            matchesSearch
+            );
+        }
     );
 
     const sortedComponents = [...filteredComponents].sort((a, b) => {
