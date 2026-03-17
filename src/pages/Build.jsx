@@ -2,6 +2,7 @@ import { useState } from "react"
 import Card  from '../components/ProductCard'
 import '../styles.css'
 import Navbar from '../components/NavBar'
+import Footer from '../components/Footer'
 
 import { CPUS, GPUS, RAMS, STORAGES, MOTHERBOARDS, PSUS, COOLERS, CASES } from '../assets/data/productsdata'
 
@@ -247,7 +248,7 @@ export default function Build() {
         </div>
 
         {/* card for different components and the price and the add to build button */}
-        <div>
+        <div className="mb-10">
             {selectedCategory === "CPU" && (
                 cardRenderer("CPU", inStockCpu, priceRange, brand, handleAddToBuild, selectedBuild, sortBy, searchQuery)
             )}
@@ -273,6 +274,8 @@ export default function Build() {
                 cardRenderer("Cooler", inStockCooler, priceRange, brand, handleAddToBuild, selectedBuild, sortBy, searchQuery)
             )}
         </div>
+
+        <Footer></Footer>
     </>
     )
 }
