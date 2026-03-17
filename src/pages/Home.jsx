@@ -1,3 +1,4 @@
+import Footer from "../components/Footer";
 import NavBar from "../components/NavBar";
 
 function Hero() {
@@ -153,6 +154,7 @@ function Home() {
     <Hero />
     <EverythingYouNeed />
     <Features />
+    <Footer />
     </div>
   )
 }
