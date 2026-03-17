@@ -11,7 +11,7 @@ function Tags({ text }){
 
 
 
-function ProductCard({ ProductData, addToBuild }){
+function ProductCard({ ProductData, addToBuild, isSelected }){
     return (
         <>
             <div className="flex-col gap-2 border-1 border-stone-400 items-center justify-center w-80 h-auto rounded-lg">
@@ -30,14 +30,24 @@ function ProductCard({ ProductData, addToBuild }){
                         ))}
                     </div>
                     <div className="px-5 pt-4">
-                        <p className="flex bg-stone-200 flex-warp border-1 border-stone-200 items-center justify-center rounded-lg text-sm w-[70%] font-bold">
+                        <p className="flex bg-stone-200 flex-warp border-1 border-stone-200 items-center justify-center rounded-lg text-sm w-[80%] font-bold">
                             <BoxIcon color="#296eb4"></BoxIcon>
                             In Stock : Pick up today
                         </p>
                     </div>
                     <div className="flex p-5">
                         <p className="flex text-[#296eb4] p-4 font-extrabold text-xl mr-auto">{ProductData.price + "$"}</p>
-                        <Button text="Add to build" color="#296eb4" holdcolor="#296eb4" addToBuild={addToBuild}/>
+                        {isSelected ? (
+                            <button
+                                type="button"
+                                disabled
+                                className="flex items-center px-4 my-2 rounded-xl bg-gray-400 text-white cursor-not-allowed"
+                            >
+                                Selected
+                            </button>
+                        ) : (
+                            <Button text="Add to build" color="#296eb4" holdcolor="#296eb4" addToBuild={addToBuild}/>
+                        )}
                     </div> 
                 </div>
             </div>

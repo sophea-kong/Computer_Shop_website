@@ -1,11 +1,31 @@
 import { useState } from "react"
 import Card  from '../components/ProductCard'
-import { Button } from '../components/Button'
 import '../styles.css'
 import Navbar from '../components/NavBar'
-import {Cpu,ShoppingCart} from 'lucide-react'
 
-import { CPUS } from '../assets/data/productsdata'
+import { CPUS, GPUS, RAMS, STORAGES, MOTHERBOARDS, PSUS, COOLERS, CASES } from '../assets/data/productsdata'
+
+const BUILD_CATEGORIES = [
+    "CPU",
+    "GPU",
+    "RAM",
+    "Storage",
+    "Motherboard",
+    "PSU",
+    "Cases",
+    "Cooler",
+];
+
+const INITIAL_SELECTED_BUILD = {
+    CPU: null,
+    GPU: null,
+    RAM: null,
+    Storage: null,
+    Motherboard: null,
+    PSU: null,
+    Cases: null,
+    Cooler: null,
+};
 
 export default function Build() {
     const [priceRange, setPriceRange] = useState(2000);
@@ -14,16 +34,16 @@ export default function Build() {
     const [sortBy, setSortBy] = useState([]);
 
     const [selectedCategory, setSelectedCategory] = useState("");
-    const [selectedComponents, setSelectedComponents] = useState([]);
+    const [selectedBuild, setSelectedBuild] = useState(INITIAL_SELECTED_BUILD);
 
     const [inStockCpu , setInStockCpu] = useState(CPUS);
-    const [inStockGpu , setInStockGpu] = useState([]);
-    const [inStockRam , setInStockRam] = useState([]);
-    const [inStockStorage , setInStockStorage] = useState([]);
-    const [inStockMotherboard , setInStockMotherboard] = useState([]);
-    const [inStockPsu , setInStockPsu] = useState([]);
-    const [inStockCases , setInStockCases] = useState([]);
-    const [inStockCooler , setInStockCooler] = useState([]);
+    const [inStockGpu , setInStockGpu] = useState(GPUS);
+    const [inStockRam , setInStockRam] = useState(RAMS);
+    const [inStockStorage , setInStockStorage] = useState(STORAGES);
+    const [inStockMotherboard , setInStockMotherboard] = useState(MOTHERBOARDS);
+    const [inStockPsu , setInStockPsu] = useState(PSUS);
+    const [inStockCases , setInStockCases] = useState(CASES);
+    const [inStockCooler , setInStockCooler] = useState(COOLERS);
 
     function handleBrandChange(value, isChecked) {
         setBrand((prevBrand) =>
@@ -48,8 +68,30 @@ export default function Build() {
         }`;
     }
 
-    function handleAddToBuild(component) {
-        setSelectedComponents((prev) => [...prev, component]);
+    function handleAddToBuild(category, component) {
+        setSelectedBuild((prev) => ({
+            ...prev,
+            [category]: component,
+        }));
+    }
+
+    function handleRemoveFromBuild(category) {
+        setSelectedBuild((prev) => ({
+            ...prev,
+            [category]: null,
+        }));
+    }
+
+    const selectedComponentsCount = countComponentsInBuild(); ;
+
+    function countComponentsInBuild() {
+        let count = 0;
+        for (const category in selectedBuild) {
+            if (selectedBuild[category] !== null) {
+                count++;
+            }
+        }
+        return count;
     }
 
     return (
@@ -152,14 +194,14 @@ export default function Build() {
                         <li><button className={getCategoryButtonClass("Cases")} onClick={() => setSelectedCategory("Cases")}>Cases</button></li>
                         <li><button className={getCategoryButtonClass("Cooler")} onClick={() => setSelectedCategory("Cooler")}>Cooler</button></li>
                     </ul>
-                {/* <p>what you choose : {selectedComponents}</p> */}
+                {/* <p>what you choose : {selectedBuild}</p> */}
                 </nav>
             </div>
 
             {/* Start your build */}
-            <div className="col-span-1  ">
+            <div className="col-span-1 h-[650px]">
                 {/* hide if the user has selected at least one component */}
-                {selectedComponents.length === 0 && (
+                {selectedComponentsCount === 0 && (
                     <div className="flex flex-col gap-5 items-center justify-center border-1 border-gray-300 rounded-[15px] px-10 py-20">
                         
                         <h1>Start Your Build</h1>
@@ -177,19 +219,17 @@ export default function Build() {
                 )}
 
                 {/* show the selected components */}
-                {selectedComponents.length > 0 && (
-                    <div>
+                {selectedComponentsCount > 0 && (
+                    <div className="h-full overflow-y-auto border-1 border-gray-300 rounded-[15px] p-5">
                         <h1>Selected Components</h1>
-                        {selectedComponents.map((component, index) => (
-                            <div key={index} className="flex items-center gap-3 border-1 border-gray-300 rounded-[15px] p-3 my-2">
-                                <img src={component.image} alt={component.name} className="w-16 h-16 object-cover rounded-lg" />
-                                <div>
-                                    <h3 className="font-bold">{component.name}</h3>
-                                    <p className="text-lg font-extrabold">${component.price.toFixed(2)}</p>
-                                </div>
-                            </div>
-
-                        ))}
+                        {BUILD_CATEGORIES.map((category) =>
+                            renderSelectedComponentCard({
+                                category,
+                                component: selectedBuild[category],
+                                onBrowseCategory: setSelectedCategory,
+                                onRemove: handleRemoveFromBuild,
+                            })
+                        )}
                     </div>
                 )}
 
@@ -200,35 +240,37 @@ export default function Build() {
         {/* card for different components and the price and the add to build button */}
         <div>
             {selectedCategory === "CPU" && (
-                cardRenderer("CPU", inStockCpu, priceRange, brand, handleAddToBuild)
+                cardRenderer("CPU", inStockCpu, priceRange, brand, handleAddToBuild, selectedBuild)
             )}
             {selectedCategory === "GPU" && (
-                cardRenderer("GPU", inStockGpu, priceRange, brand, handleAddToBuild)
+                cardRenderer("GPU", inStockGpu, priceRange, brand, handleAddToBuild, selectedBuild)
             )}
             {selectedCategory === "RAM" && (
-                cardRenderer("RAM", inStockRam, priceRange, brand, handleAddToBuild)
+                cardRenderer("RAM", inStockRam, priceRange, brand, handleAddToBuild, selectedBuild)
             )}
             {selectedCategory === "Storage" && (
-                cardRenderer("Storage", inStockStorage, priceRange, brand, handleAddToBuild)
+                cardRenderer("Storage", inStockStorage, priceRange, brand, handleAddToBuild, selectedBuild)
             )}
             {selectedCategory === "Motherboard" && (
-                cardRenderer("Motherboard", inStockMotherboard, priceRange, brand, handleAddToBuild)
+                cardRenderer("Motherboard", inStockMotherboard, priceRange, brand, handleAddToBuild, selectedBuild)
             )}
             {selectedCategory === "PSU" && (
-                cardRenderer("PSU", inStockPsu, priceRange, brand, handleAddToBuild)
+                cardRenderer("PSU", inStockPsu, priceRange, brand, handleAddToBuild, selectedBuild)
             )}
             {selectedCategory === "Cases" && (
-                cardRenderer("Cases", inStockCases, priceRange, brand, handleAddToBuild)
+                cardRenderer("Cases", inStockCases, priceRange, brand, handleAddToBuild, selectedBuild)
             )}
             {selectedCategory === "Cooler" && (
-                cardRenderer("Cooler", inStockCooler, priceRange, brand, handleAddToBuild)
+                cardRenderer("Cooler", inStockCooler, priceRange, brand, handleAddToBuild, selectedBuild)
             )}
         </div>
     </>
     )
 }
 
-function cardRenderer(category, inStockComponents, priceRange, brand, onAddToBuild) {
+function cardRenderer(category, inStockComponents, priceRange, brand, onAddToBuild, selectedBuild) {
+    const selectedInCategory = selectedBuild[category];
+
     return (
         <div className="w-full px-10">
             <h1 className="mb-6">{category}</h1>
@@ -238,11 +280,57 @@ function cardRenderer(category, inStockComponents, priceRange, brand, onAddToBui
                         <Card
                             key={index}
                             ProductData={component}
-                            addToBuild={() => onAddToBuild(component)}
+                            isSelected={
+                                Boolean(selectedInCategory) &&
+                                selectedInCategory.name === component.name &&
+                                selectedInCategory.price === component.price &&
+                                selectedInCategory.image === component.image
+                            }
+                            addToBuild={() => onAddToBuild(category, component)}
                         />
                     ) : null
                 )}
             </div>
         </div>
     )
+}
+
+function renderSelectedComponentCard({ category, component, onBrowseCategory, onRemove }) {
+    if (!component) {
+        return (
+            <div key={category} className="flex items-center gap-3 border-1 border-gray-300 rounded-[15px] p-3 my-2">
+                <div>
+                    <h3 className="font-bold">{category}</h3>
+                    <p className="text-sm !text-[var(--text-muted)]">No component selected.</p>
+                </div>
+
+                <div className="ml-auto">
+                    <button
+                        onClick={() => onBrowseCategory(category)}
+                        className="flex items-center gap-2 py-2 px-3 border-1 bg-[#296eb4] !text-white rounded-lg"
+                    >
+                        Add {category}
+                        <span className="material-symbols-outlined !text-white">arrow_forward</span>
+                    </button>
+                </div>
+            </div>
+        );
+    }
+
+    return (
+        <div key={category} className="flex items-center gap-3 border-1 border-gray-300 rounded-[15px] p-3 my-2">
+            <img src={component.image} alt={component.name} className="w-16 h-16 object-cover rounded-lg" />
+            <div>
+                <p className="text-sm !text-[var(--text-muted)]">{category}</p>
+                <h3 className="font-bold">{component.name}</h3>
+                <p className="text-lg font-extrabold">${component.price.toFixed(2)}</p>
+            </div>
+
+            <div className="ml-auto">
+                <button onClick={() => onRemove(category)} className="hover:bg-gray-200 rounded-full p-2 w-10 h-10 flex items-center justify-center">
+                    <span className="material-symbols-outlined">remove</span>
+                </button>
+            </div>
+        </div>
+    );
 }
