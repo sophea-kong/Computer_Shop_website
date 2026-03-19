@@ -1,10 +1,16 @@
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Build from './pages/Build'
+import Contact from './pages/Contact'
 function App() {
 
   return (
-    <>
-      <Build />
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Build />} />
+        <Route path="/build" element={<Build />} />
+        <Route path="/contact" element={<Contact />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
 
