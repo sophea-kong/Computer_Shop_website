@@ -1,4 +1,4 @@
-import { BoxIcon, Tag } from "lucide-react";
+import { BoxIcon } from "lucide-react";
 import { Button } from "./Button";
 
 function Tags({ text }){
@@ -14,14 +14,21 @@ function Tags({ text }){
 function ProductCard({ ProductData, addToBuild, isSelected }){
     return (
         <>
-            <div className="flex-col gap-2 border-1 border-stone-400 items-center justify-center w-80 h-auto rounded-lg">
-                <img src={ProductData.image} className="rounded-t-lg"></img>
-                <div>
+            <div className="flex flex-col gap-2 border-1 border-stone-400 items-center justify-start w-80 h-full rounded-lg overflow-hidden bg-white">
+                <div className="w-full aspect-[4/3] bg-stone-100 overflow-hidden">
+                    <img
+                        src={ProductData.image}
+                        alt={ProductData.name}
+                        className="w-full h-full object-cover object-center"
+                        loading="lazy"
+                    />
+                </div>
+                <div className="w-full">
                     <div className="flex px-5 pt-2 text-stone-500">
                         <p className="w-[50%]">{ProductData.category}</p>
                         <p className="w-[50%] text-right">&#11088;{ProductData.rating}</p>
                     </div>
-                    <div className="flex text-xl items-start justify-start px-6 pt-2 pb-9 font-bold">
+                    <div className="flex text-xl items-start justify-start px-6 pt-2 pb-4 font-bold min-h-20">
                         <p>{ProductData.name}</p>
                     </div>
                     <div className="grid grid-cols-3 gap-3 px-5">

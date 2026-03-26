@@ -96,6 +96,11 @@ export default function Build() {
         return count;
     }
 
+    function addToCart() {
+        alert("Build added to cart!");
+        setSelectedBuild(INITIAL_SELECTED_BUILD);
+    }
+
     return (
     <>
 
@@ -239,6 +244,17 @@ export default function Build() {
                                 onBrowseCategory: setSelectedCategory,
                                 onRemove: handleRemoveFromBuild,
                             })
+                        )}
+                        {selectedComponentsCount === BUILD_CATEGORIES.length && (
+                            <div>
+                                <button className="w-full flex items-center justify-center py-3 bg-[#296eb4] !text-white rounded-lg mt-5 gap-2"
+                                    onClick={addToCart}>
+                                    <span className="material-symbols-outlined !text-white">
+                                        shopping_cart
+                                    </span>
+                                    Add Build to Cart
+                                </button>
+                            </div>
                         )}
                     </div>
                 )}
