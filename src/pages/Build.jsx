@@ -99,6 +99,7 @@ export default function Build() {
         return count;
     }
 
+    // make changes here for the header This is where you add the selected part to your cart INITIAL_SELECTED_BUILD
     function addToCart() {
         alert("Build added to cart!");
         setSelectedBuild(INITIAL_SELECTED_BUILD);
