@@ -3,6 +3,7 @@ import Card  from '../components/ProductCard'
 import '../styles.css'
 import Navbar from '../components/NavBar'
 import Footer from '../components/Footer'
+import { ListFilterPlus, X, Minus, MoveRight, ShoppingCart, Search as SearchIcon, FileChartColumn, Star } from 'lucide-react'
 
 import { CPUS, GPUS, RAMS, STORAGES, MOTHERBOARDS, PSUS, COOLERS, CASES } from '../assets/data/productsdata'
 
@@ -29,6 +30,9 @@ const INITIAL_SELECTED_BUILD = {
 };
 
 export default function Build() {
+    const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
+    const [isMobileBuildOpen, setIsMobileBuildOpen] = useState(false);
+
     const [priceRange, setPriceRange] = useState(2000);
     const [brand, setBrand] = useState([]);
     const [searchQuery, setSearchQuery] = useState("");
@@ -99,6 +103,22 @@ export default function Build() {
         return count;
     }
 
+    function handleCloseOverlay() {
+        setIsMobileFilterOpen(false);
+    }
+
+    function handleOpenOverlay() {
+        setIsMobileFilterOpen(true);
+    }
+
+    function handleOpenMobileBuild() {
+        setIsMobileBuildOpen(true);
+    }
+
+    function handleCloseMobileBuild() {
+        setIsMobileBuildOpen(false);
+    }
+
     // make changes here for the header This is where you add the selected part to your cart INITIAL_SELECTED_BUILD
     function addToCart() {
         alert("Build added to cart!");
@@ -117,7 +137,7 @@ export default function Build() {
         )
     }
 
-    function Search() {
+    function SearchBar() {
         return (
             <search className="bg-gray-100 rounded-lg p-3">
                 <form
@@ -133,7 +153,7 @@ export default function Build() {
                         onChange={(event) => setSearchQuery(event.target.value)}
                     />
                     <button type="submit" className="flex items-center gap-1">
-                        <span className="material-symbols-outlined text-[20px]">search</span>
+                        <SearchIcon  />
                         Search
                     </button>
                 </form>
@@ -141,7 +161,7 @@ export default function Build() {
         )
     }
 
-    function FilterAndCategory() {
+    function Filter() {
         return (
             <div className="flex flex-col border-1 border-gray-300 rounded-[15px] p-5 gap-3">
                 {/* price range slider */}
@@ -208,10 +228,24 @@ export default function Build() {
         return (
         <div className="flex flex-col gap-8">
             {/* search parts */}
-            <Search />
+            <div className="flex items-center gap-3">
+            <div className="flex-1">
+                <SearchBar />
+            </div>
+            <button
+                type="button"
+                className="lg:hidden border-1 border-gray-300 p-3 rounded-[10px]"
+                onClick={handleOpenOverlay}
+                aria-label="Open filters"
+            >
+                <ListFilterPlus />
+            </button>
+            </div>
 
-            {/* filter and the selected category*/}
-            <FilterAndCategory />
+            {/* filter*/}
+            <div className="hidden lg:block">
+                <Filter />  
+            </div>
         </div>
         )
     }
@@ -219,7 +253,7 @@ export default function Build() {
     function CategorySelecion() {
         return (
         <nav>
-            <ul className="flex gap-5">
+            <ul className="flex gap-5 flex-wrap">
                 <li><button className={getCategoryButtonClass("CPU")} onClick={() => setSelectedCategory("CPU")}>CPU</button></li>
                 <li><button className={getCategoryButtonClass("GPU")} onClick={() => setSelectedCategory("GPU")}>GPU</button></li>
                 <li><button className={getCategoryButtonClass("RAM")} onClick={() => setSelectedCategory("RAM")}>RAM</button></li>
@@ -236,7 +270,7 @@ export default function Build() {
 
     function FilterAndBuild() {
         return (
-        <div className="grid grid-cols-3 gap-10 p-10 bg-[#fbfef9]">
+        <div className="flex flex-col lg:grid lg:grid-cols-3 gap-10 p-10 bg-[#fbfef9]">
             <div className="col-span-2 gap-8 flex flex-col">
                 {/* Search parts and Price Range grid and the component selection */}
                 <SearchAndFilter />
@@ -246,14 +280,28 @@ export default function Build() {
             </div>
 
             {/* Start your build */}
-            <StartYourBuild />
+            <div className="hidden lg:block">
+                <StartYourBuild />
+            </div>
+
+            <div className="lg:hidden fixed bottom-0 left-0 right-0 p-5 bg-[#fbfef9] border-1 border-gray-300">
+                <button className="w-full py-3 bg-[#296eb4] !text-white rounded-lg gap-2"
+                    onClick={handleOpenMobileBuild}>
+                    View Build
+                </button>
+            </div>
         </div>
         )
     }
 
-    function StartYourBuild() {
+    function StartYourBuild({ mobile = false }) {
+        const wrapperClass = mobile ? "h-full" : "col-span-1 h-[650px]";
+        const selectedContainerClass = mobile
+            ? "max-h-[70vh] overflow-y-auto border-1 border-gray-300 rounded-[15px] p-5"
+            : "h-full overflow-y-auto border-1 border-gray-300 rounded-[15px] p-5";
+
         return (
-        <div className="col-span-1 h-[650px]">
+        <div className={wrapperClass}>
             {/* hide if the user has selected at least one component */}
             {selectedComponentsCount === 0 && (
                 <div className="flex flex-col gap-5 items-center justify-center border-1 border-gray-300 rounded-[15px] px-10 py-20">
@@ -265,16 +313,14 @@ export default function Build() {
                     <button className="flex py-2 px-4 border-1 bg-[#296eb4] !text-white rounded-lg gap-2 items-center" 
                         onClick={() => setSelectedCategory("CPU")}>
                         Browse CPUs
-                        <span className="material-symbols-outlined !text-white">
-                            arrow_forward
-                        </span>
+                        <MoveRight className="!text-white" />
                     </button>
                 </div>
             )}
 
             {/* show the selected components */}
             {selectedComponentsCount > 0 && (
-                <div className="h-full overflow-y-auto border-1 border-gray-300 rounded-[15px] p-5">
+                <div className={selectedContainerClass}>
                     <h1>Selected Components</h1>
                     {BUILD_CATEGORIES.map((category) =>
                         renderSelectedComponentCard({
@@ -288,9 +334,7 @@ export default function Build() {
                         <div>
                             <button className="w-full flex items-center justify-center py-3 bg-[#296eb4] !text-white rounded-lg mt-5 gap-2"
                                 onClick={addToCart}>
-                                <span className="material-symbols-outlined !text-white">
-                                    shopping_cart
-                                </span>
+                                <ShoppingCart className="!text-white" />
                                 Add Build to Cart
                             </button>
                         </div>
@@ -304,7 +348,7 @@ export default function Build() {
 
     function Products() {
         return (
-        <div className="mb-10">
+        <div>
             {selectedCategory === "CPU" && (
                 cardRenderer("CPU", inStockCpu, priceRange, brand, handleAddToBuild, selectedBuild, sortBy, searchQuery)
             )}
@@ -333,6 +377,115 @@ export default function Build() {
         )
     }
 
+    // ------------------------------
+    // mobile jsx components
+    // -----------------------------
+
+
+    function MobileBuildSheet() {
+        return (
+            <div
+                className={`lg:hidden fixed inset-0 z-50 bg-black/50 ${
+                    isMobileBuildOpen ? "block" : "hidden"
+                }`}
+                onClick={handleCloseMobileBuild}
+            >
+                <div
+                    className="absolute bottom-0 left-0 right-0 bg-[#fbfef9] rounded-t-2xl p-4"
+                    onClick={(event) => event.stopPropagation()}
+                >
+                    <div className="flex items-center justify-between mb-3">
+                        <h2 className="font-bold text-lg">Your Build</h2>
+                        <button className="focus:outline-none cursor-pointer" onClick={handleCloseMobileBuild}>
+                            <X size={20} />
+                        </button>
+                    </div>
+
+                    <StartYourBuild mobile />
+                </div>
+            </div>
+        );
+    }
+
+    function MobileFilter() {
+        return (
+            <div
+                className={`fixed inset-0 bg-black/50 ${
+                    isMobileFilterOpen ? "block" : "hidden"
+                }`}
+                onClick={handleCloseOverlay}
+            >
+                <div
+                    className="flex flex-col border-1 border-gray-300 p-5 gap-3 w-2/3 bg-[#fbfef9] h-full"
+                    onClick={(e) => e.stopPropagation()}
+                >
+                    {/* close btn */}
+                    <button className="self-end focus:outline-none cursor-pointer"
+                        onClick={handleCloseOverlay}
+                    >
+                        <X />
+                    </button>
+                    {/* price range slider */}
+                    <div className="flex flex-col gap-2">
+                        <p>Price Range : 0$ - {priceRange}$</p>
+                        <div>
+                            <div className="flex flex-row justify-between !text-[var(--text-muted)]">
+                                <p>0$</p>
+                                <p>2000$</p>
+                            </div>
+                            <input type="range" min="0" max="2000" 
+                                className="w-full"
+                                value={priceRange} 
+                                onChange={(event) => setPriceRange(event.target.value)} 
+                            />
+                        </div>
+                    </div>
+
+                    {/* brand */}
+                    <div className="flex flex-col gap-2">
+                        <p>Brand</p>
+                        <label className="flex items-center gap-2">
+                            <input
+                                type="checkbox"
+                                name="intel"
+                                value="intel"
+                                checked={brand.includes("intel")}
+                                onChange={(event) => handleBrandChange("intel", event.target.checked)}
+                            />
+                            Intel
+                        </label>
+                        <label className="flex items-center gap-2">
+                            <input
+                                type="checkbox"
+                                name="amd"
+                                value="amd"
+                                checked={brand.includes("amd")}
+                                onChange={(event) => handleBrandChange("amd", event.target.checked)}
+                            />
+                            AMD
+                        </label>
+
+                        {/* <p>brand you choose : {brand.join(", ")}</p> */}
+                    </div>
+
+                    {/* sort by */}
+                    <div className="flex flex-col gap-2">
+                        <p>Sort by</p>
+                        <nav>
+                            <ul className="flex flex-col gap-2">
+                                <li><button className={getSortByButtonClass("price-low-to-high")} onClick={() => setSortBy("price-low-to-high")}>Price: Low to High</button></li>
+                                <li><button className={getSortByButtonClass("price-high-to-low")} onClick={() => setSortBy("price-high-to-low")}>Price: High to Low</button></li>
+                                <li><button className={getSortByButtonClass("highest-rating")} onClick={() => setSortBy("highest-rating")}>Highest Rating</button></li>
+                                <li><button className={getSortByButtonClass("name-az")} onClick={() => setSortBy("name-az")}>Name (A-Z)</button></li>
+                            </ul>
+                            {/* <p>sort selected: {sortBy}</p> */}
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        )
+    }
+
     return (
     <>
         <Navbar></Navbar>
@@ -342,6 +495,9 @@ export default function Build() {
         
         {/* Body */}
         <FilterAndBuild />
+
+        <MobileFilter />
+        <MobileBuildSheet />
 
         {/* card for different components and the price and the add to build button */}
         <Products />
@@ -394,7 +550,7 @@ function cardRenderer(category, inStockComponents, priceRange, brand, onAddToBui
     return (
         <div className="w-full px-10">
             <h1 className="mb-6">{category}</h1>
-            <div className="flex gap-10">
+            <div className="flex flex-wrap gap-6 mb-10 justify-center md:justify-start items-center">
                 {sortedComponents.map((component, index) => (
                     <Card
                         key={index}
@@ -428,7 +584,7 @@ function renderSelectedComponentCard({ category, component, onBrowseCategory, on
                         className="flex items-center gap-2 py-2 px-3 border-1 bg-[#296eb4] !text-white rounded-lg"
                     >
                         Add {category}
-                        <span className="material-symbols-outlined !text-white">arrow_forward</span>
+                        <MoveRight className="!text-white" />
                     </button>
                 </div>
             </div>
@@ -445,8 +601,12 @@ function renderSelectedComponentCard({ category, component, onBrowseCategory, on
             </div>
 
             <div className="ml-auto">
-                <button onClick={() => onRemove(category)} className="hover:bg-gray-200 rounded-full p-2 w-10 h-10 flex items-center justify-center">
-                    <span className="material-symbols-outlined">remove</span>
+                <button onClick={(e) => {
+                    onRemove(category);
+                    e.stopPropagation()}} 
+                    className="hover:bg-gray-200 rounded-full p-2 w-10 h-10 flex items-center justify-center"
+                >
+                    <Minus />
                 </button>
             </div>
         </div>
