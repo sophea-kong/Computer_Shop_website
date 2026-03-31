@@ -64,7 +64,7 @@ export default function Contact() {
               </div>
               <div>
                 <p className="font-semibold text-sm" style={{ color: "#000300" }}>Email</p>
-                <p className="text-sm" style={{ color: "#296eb4" }}>support@pcbuildershop.com</p>
+                <p className="text-sm" style={{ color: "#296eb4" }}>pcbuildershopkosupport@gmail.com</p>
                 <p className="text-sm text-gray-400">24-hour response time</p>
               </div>
             </div>
