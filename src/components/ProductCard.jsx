@@ -1,4 +1,4 @@
-import { BoxIcon, Tag } from "lucide-react";
+import { BoxIcon } from "lucide-react";
 import { Button } from "./Button";
 
 function Tags({ text }){
@@ -11,17 +11,24 @@ function Tags({ text }){
 
 
 
-function ProductCard({ ProductData }){
+function ProductCard({ ProductData, addToBuild, isSelected }){
     return (
         <>
-            <div className="flex-col gap-2 border-1 border-stone-400 items-center justify-center w-80 h-auto rounded-lg">
-                <img src={ProductData.image} className="rounded-t-lg"></img>
-                <div>
+            <div className="flex flex-col gap-2 border-1 border-stone-400 items-center justify-start w-80 h-full rounded-lg overflow-hidden bg-white">
+                <div className="w-full aspect-[4/3] bg-stone-100 overflow-hidden">
+                    <img
+                        src={ProductData.image}
+                        alt={ProductData.name}
+                        className="w-full h-full object-cover object-center"
+                        loading="lazy"
+                    />
+                </div>
+                <div className="w-full">
                     <div className="flex px-5 pt-2 text-stone-500">
                         <p className="w-[50%]">{ProductData.category}</p>
                         <p className="w-[50%] text-right">&#11088;{ProductData.rating}</p>
                     </div>
-                    <div className="flex text-xl items-start justify-start px-6 pt-2 pb-9 font-bold">
+                    <div className="flex text-xl items-start justify-start px-6 pt-2 pb-4 font-bold min-h-20">
                         <p>{ProductData.name}</p>
                     </div>
                     <div className="grid grid-cols-3 gap-3 px-5">
@@ -30,14 +37,24 @@ function ProductCard({ ProductData }){
                         ))}
                     </div>
                     <div className="px-5 pt-4">
-                        <p className="flex bg-stone-200 flex-warp border-1 border-stone-200 items-center justify-center rounded-lg text-sm w-[70%] font-bold">
+                        <p className="flex bg-stone-200 flex-warp border-1 border-stone-200 items-center justify-center rounded-lg text-sm w-[80%] font-bold">
                             <BoxIcon color="#296eb4"></BoxIcon>
                             In Stock : Pick up today
                         </p>
                     </div>
                     <div className="flex p-5">
                         <p className="flex text-[#296eb4] p-4 font-extrabold text-xl mr-auto">{ProductData.price + "$"}</p>
-                        <Button text="Add to build" color="#296eb4" holdcolor="#296eb4"/>
+                        {isSelected ? (
+                            <button
+                                type="button"
+                                disabled
+                                className="flex items-center px-4 my-2 rounded-xl bg-gray-400 text-white cursor-not-allowed"
+                            >
+                                Selected
+                            </button>
+                        ) : (
+                            <Button text="Add to build" color="#296eb4" holdcolor="#296eb4" addToBuild={addToBuild}/>
+                        )}
                     </div> 
                 </div>
             </div>
