@@ -1,5 +1,6 @@
 import { Button } from "./Button";
 import {Cpu,ShoppingCart} from 'lucide-react'
+import { Link } from 'react-router-dom'
 
 function NavBar(){
     return (
@@ -11,9 +12,9 @@ function NavBar(){
             </div>
             <div id="blank" className="w-[60%]"></div>
             <div className="flex gap-4 font-semibold">
-                <Button text="Home" color="#ffffff" holdcolor="#d6d6d6" />
-                <Button text="Contact" color="#ffffff" holdcolor="#d6d6d6" />
-                <Button text="Build" color="#ffffff" holdcolor="#d6d6d6" />
+                <Link to="/"><Button text="Home" color="#ffffff" holdcolor="#d6d6d6" /></Link>
+                <Link to="/contact"><Button text="Contact" color="#ffffff" holdcolor="#d6d6d6" /></Link>
+                <Link to="/build"><Button text="Build" color="#ffffff" holdcolor="#d6d6d6" /></Link>
                 <Button text={<><ShoppingCart></ShoppingCart><p>Build</p></>} color="#296eb4" holdcolor="#296eb4"/>
             </div>
         </div>
