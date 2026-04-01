@@ -163,7 +163,7 @@ export default function Build() {
 
     function Filter() {
         return (
-            <div className="flex flex-col border-1 border-gray-300 rounded-[15px] p-5 gap-3">
+            <div className="flex flex-col border-0 lg:border-1 border-gray-300 rounded-[15px] lg:p-5 gap-3">
                 {/* price range slider */}
                 <div className="flex flex-col gap-2">
                     <p>Price Range : 0$ - {priceRange}$</p>
@@ -425,62 +425,7 @@ export default function Build() {
                     >
                         <X />
                     </button>
-                    {/* price range slider */}
-                    <div className="flex flex-col gap-2">
-                        <p>Price Range : 0$ - {priceRange}$</p>
-                        <div>
-                            <div className="flex flex-row justify-between !text-[var(--text-muted)]">
-                                <p>0$</p>
-                                <p>2000$</p>
-                            </div>
-                            <input type="range" min="0" max="2000" 
-                                className="w-full"
-                                value={priceRange} 
-                                onChange={(event) => setPriceRange(event.target.value)} 
-                            />
-                        </div>
-                    </div>
-
-                    {/* brand */}
-                    <div className="flex flex-col gap-2">
-                        <p>Brand</p>
-                        <label className="flex items-center gap-2">
-                            <input
-                                type="checkbox"
-                                name="intel"
-                                value="intel"
-                                checked={brand.includes("intel")}
-                                onChange={(event) => handleBrandChange("intel", event.target.checked)}
-                            />
-                            Intel
-                        </label>
-                        <label className="flex items-center gap-2">
-                            <input
-                                type="checkbox"
-                                name="amd"
-                                value="amd"
-                                checked={brand.includes("amd")}
-                                onChange={(event) => handleBrandChange("amd", event.target.checked)}
-                            />
-                            AMD
-                        </label>
-
-                        {/* <p>brand you choose : {brand.join(", ")}</p> */}
-                    </div>
-
-                    {/* sort by */}
-                    <div className="flex flex-col gap-2">
-                        <p>Sort by</p>
-                        <nav>
-                            <ul className="flex flex-col gap-2">
-                                <li><button className={getSortByButtonClass("price-low-to-high")} onClick={() => setSortBy("price-low-to-high")}>Price: Low to High</button></li>
-                                <li><button className={getSortByButtonClass("price-high-to-low")} onClick={() => setSortBy("price-high-to-low")}>Price: High to Low</button></li>
-                                <li><button className={getSortByButtonClass("highest-rating")} onClick={() => setSortBy("highest-rating")}>Highest Rating</button></li>
-                                <li><button className={getSortByButtonClass("name-az")} onClick={() => setSortBy("name-az")}>Name (A-Z)</button></li>
-                            </ul>
-                            {/* <p>sort selected: {sortBy}</p> */}
-                        </nav>
-                    </div>
+                        <Filter  />  
                 </div>
             </div>
         )
