@@ -1,5 +1,6 @@
 import { useState } from "react"
 import Navbar from '../components/NavBar'
+import Footer from '../components/Footer'
 import '../styles.css'
 import { Phone, Mail, MapPin, Clock, MessageCircle, Send } from 'lucide-react'
 
@@ -64,7 +65,7 @@ export default function Contact() {
               </div>
               <div>
                 <p className="font-semibold text-sm" style={{ color: "#000300" }}>Email</p>
-                <p className="text-sm" style={{ color: "#296eb4" }}>support@pcbuildershop.com</p>
+                <p className="text-sm" style={{ color: "#296eb4" }}>pcbuildershopkosupport@gmail.com</p>
                 <p className="text-sm text-gray-400">24-hour response time</p>
               </div>
             </div>
@@ -217,53 +218,8 @@ export default function Contact() {
       </div>
 
       {/* FOOTER */}
-      <footer style={{ borderTop: "1px solid #e5e7eb", background: "#fbfef9" }} className="mt-4">
-        <div className="max-w-5xl mx-auto px-6 py-10 grid grid-cols-2 md:grid-cols-4 gap-8">
-
-          <div className="col-span-2 md:col-span-1">
-            <p className="font-bold text-base mb-3" style={{ color: "#000300" }}>PC Builder Shop</p>
-            <p className="text-sm leading-relaxed text-gray-400">
-              Build your dream PC with compatible parts and expert support.
-            </p>
-          </div>
-
-          <div>
-            <p className="font-semibold text-sm mb-3" style={{ color: "#000300" }}>Shop</p>
-            <ul className="flex flex-col gap-2 text-sm text-gray-400">
-              <li><a href="#" className="hover:text-gray-700">Build a PC</a></li>
-              <li><a href="#" className="hover:text-gray-700">Browse Parts</a></li>
-              <li><a href="#" className="hover:text-gray-700">Prebuilt Systems</a></li>
-              <li><a href="#" className="hover:text-gray-700">Deals &amp; Offers</a></li>
-            </ul>
-          </div>
-
-          <div>
-            <p className="font-semibold text-sm mb-3" style={{ color: "#000300" }}>Support</p>
-            <ul className="flex flex-col gap-2 text-sm text-gray-400">
-              <li><a href="#" className="hover:text-gray-700">Contact Us</a></li>
-              <li><a href="#" className="hover:text-gray-700">Build Guide</a></li>
-              <li><a href="#" className="hover:text-gray-700">FAQ</a></li>
-              <li><a href="#" className="hover:text-gray-700">Warranty Info</a></li>
-            </ul>
-          </div>
-
-          <div>
-            <p className="font-semibold text-sm mb-3" style={{ color: "#000300" }}>Company</p>
-            <ul className="flex flex-col gap-2 text-sm text-gray-400">
-              <li><a href="#" className="hover:text-gray-700">About Us</a></li>
-              <li><a href="#" className="hover:text-gray-700">Careers</a></li>
-              <li><a href="#" className="hover:text-gray-700">Privacy Policy</a></li>
-              <li><a href="#" className="hover:text-gray-700">Terms of Service</a></li>
-            </ul>
-          </div>
-
-        </div>
-
-        <div className="py-4 text-center text-sm text-gray-400"
-          style={{ borderTop: "1px solid #e5e7eb" }}>
-          © 2026 PC Builder Shop. All rights reserved.
-        </div>
-      </footer>
+      <Footer />
     </>
   )
-}
+} 
+          
