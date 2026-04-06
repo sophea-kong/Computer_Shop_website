@@ -16,6 +16,7 @@ function NavBar(){
                     <Link to="/"><Button text="Home" color="#ffffff" holdcolor="#d6d6d6" /></Link>
                     <Link to="/contact"><Button text="Contact" color="#ffffff" holdcolor="#d6d6d6" /></Link>
                     <Link to="/build"><Button text="Build" color="#ffffff" holdcolor="#d6d6d6" /></Link>
+                    <Link to="/learn"><Button text="Learn" color="#ffffff" holdcolor="#d6d6d6" /></Link>
                     <Button className="flex items-center gap-2" text={<><ShoppingCart></ShoppingCart><p className="py-3">Build</p></>} color="#296eb4" holdcolor="#296eb4"/>
                 </div>
                 <div className="sm:hidden sm:w-0 flex items-center justify-end gap-4 font-semibold w-[20%] justify-end">

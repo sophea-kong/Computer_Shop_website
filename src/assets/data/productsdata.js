@@ -51,6 +51,7 @@ export const CPUS = [
     }
 ]
 
+
 export const GPUS = [
     {
         name : "NVIDIA GeForce RTX 4070 Super",

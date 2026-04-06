@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Card  from '../components/ProductCard'
 import '../styles.css'
 import Navbar from '../components/NavBar'
@@ -42,7 +42,7 @@ export default function Build() {
     const [selectedCategory, setSelectedCategory] = useState("CPU");
     const [selectedBuild, setSelectedBuild] = useState(INITIAL_SELECTED_BUILD);
 
-    const [inStockCpu] = useState(CPUS);
+    const [inStockCpu, setInStockCpu] = useState(CPUS || []);
     const [inStockGpu] = useState(GPUS);
     const [inStockRam] = useState(RAMS);
     const [inStockStorage] = useState(STORAGES);
@@ -50,6 +50,7 @@ export default function Build() {
     const [inStockPsu] = useState(PSUS);
     const [inStockCases] = useState(CASES);
     const [inStockCooler] = useState(COOLERS);
+
 
     const handleBrandChange = (brandName, isChecked) => {
         setBrand(isChecked 
