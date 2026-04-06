@@ -114,7 +114,7 @@ function EverythingYouNeed() {
 
         {/* How it Works */}
         <div
-          onClick={() => navigate("/contact")}
+          onClick={() => navigate("/learn")}
           className="cursor-pointer bg-white border border-gray-200 rounded-2xl p-5 hover:shadow-md transition-shadow"
         >
           <div className="w-9 h-9 bg-blue-50 rounded-xl flex items-center justify-center mb-3">
