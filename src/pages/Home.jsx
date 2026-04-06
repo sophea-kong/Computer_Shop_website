@@ -21,7 +21,7 @@ function Hero() {
       <div className="flex items-center justify-center gap-4">
         <button
           onClick={() => navigate("/build")}
-          className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg transition-colors text-sm"
+          className="flex items-center gap-2 bg-[#296eb4] hover:bg-[#1d5ca3] text-white font-semibold px-6 py-3 rounded-lg transition-colors text-sm"
         >
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
@@ -54,7 +54,7 @@ function EverythingYouNeed() {
         {/* Start a Build — large card */}
         <div
           onClick={() => navigate("/build")}
-          className="cursor-pointer col-span-2 md:col-span-1 row-span-2 bg-blue-600 hover:bg-blue-700 transition-colors rounded-2xl p-6 flex flex-col justify-end min-h-[260px]"
+          className="cursor-pointer col-span-2 md:col-span-1 row-span-2 bg-[#296eb4] hover:bg-[#1d5ca3] transition-colors rounded-2xl p-6 flex flex-col justify-end min-h-[260px]"
         >
           <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center mb-4">
             <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -100,7 +100,7 @@ function EverythingYouNeed() {
         {/* Student Discounts */}
         <div
           onClick={() => navigate("/contact")}
-          className="cursor-pointer bg-orange-500 hover:bg-orange-600 transition-colors rounded-2xl p-5"
+          className="cursor-pointer bg-[#f97316] hover:bg-[#ea580c] transition-colors rounded-2xl p-5"
         >
           <div className="w-9 h-9 bg-white/20 rounded-xl flex items-center justify-center mb-3">
             <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
