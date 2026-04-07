@@ -18,7 +18,6 @@ export default function Contact() {
 
   function handleSubmit(e) {
     e.preventDefault()
-    // TODO: wire up your submission logic here
     console.log("Form submitted:", formData)
   }
 
@@ -26,26 +25,27 @@ export default function Contact() {
     <>
       <Navbar />
 
-      {/* HERO */}
-      <div className="flex flex-col justify-center px-10 py-15 gap-5 border-y-1 border-gray-300"
+      {/* HERO - Adjusted padding and text size for mobile */}
+      <div className="flex flex-col justify-center px-6 md:px-10 py-10 md:py-15 gap-5 border-y border-gray-300"
         style={{ background: "linear-gradient(to bottom right, #fbfef9 50%, #296eb4)" }}>
-        <h1 style={{ color: "#000300" }}>Contact the Shop</h1>
-        <p className="!text-[25px]" style={{ color: "#296eb4" }}>
+        <h1 className="text-3xl md:text-4xl font-bold" style={{ color: "#000300" }}>Contact the Shop</h1>
+        <p className="text-lg md:!text-[25px]" style={{ color: "#296eb4" }}>
           Have questions? We're here to help you build your perfect PC.
         </p>
       </div>
 
-      {/* MAIN CONTENT */}
-      <div className="grid grid-cols-3 gap-10 p-10" style={{ background: "#fbfef9" }}>
+      {/* MAIN CONTENT - Grid behavior: 1 col on mobile, 3 on LG */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 p-6 md:p-10 max-w-screen-2xl mx-auto" style={{ background: "#fbfef9" }}>
 
         {/* LEFT COLUMN */}
-        <div className="col-span-2 flex flex-col gap-8">
+        <div className="lg:col-span-2 flex flex-col gap-8">
           <h2 className="text-2xl font-bold" style={{ color: "#000300" }}>Get in Touch</h2>
 
-          <div className="flex flex-col gap-4">
+          {/* Info Cards Grid - 1 col on mobile, 2 on medium screens */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 
             {/* Phone */}
-            <div className="border-1 border-gray-300 rounded-[15px] p-4 flex items-start gap-4" style={{ background: "#fbfef9" }}>
+            <div className="border border-gray-300 rounded-[15px] p-4 flex items-start gap-4" style={{ background: "#fbfef9" }}>
               <div className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0"
                 style={{ background: "#e8f1fa", color: "#296eb4" }}>
                 <Phone size={20} />
@@ -58,7 +58,7 @@ export default function Contact() {
             </div>
 
             {/* Email */}
-            <div className="border-1 border-gray-300 rounded-[15px] p-4 flex items-start gap-4" style={{ background: "#fbfef9" }}>
+            <div className="border border-gray-300 rounded-[15px] p-4 flex items-start gap-4" style={{ background: "#fbfef9" }}>
               <div className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0"
                 style={{ background: "#fef0e6", color: "#ff8811" }}>
                 <Mail size={20} />
@@ -71,37 +71,35 @@ export default function Contact() {
             </div>
 
             {/* Store Location */}
-            <div className="border-1 border-gray-300 rounded-[15px] p-4 flex items-start gap-4" style={{ background: "#fbfef9" }}>
+            <div className="border border-gray-300 rounded-[15px] p-4 flex items-start gap-4" style={{ background: "#fbfef9" }}>
               <div className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0"
                 style={{ background: "#e8f1fa", color: "#296eb4" }}>
                 <MapPin size={20} />
               </div>
               <div>
                 <p className="font-semibold text-sm" style={{ color: "#000300" }}>Store Location</p>
-                <p className="text-sm text-gray-500">2nd Bridge, Prek Leab </p>
-                <p className="text-sm text-gray-400">Phnom Penh, Cambodia </p>
+                <p className="text-sm text-gray-500">2nd Bridge, Prek Leab</p>
+                <p className="text-sm text-gray-400">Phnom Penh, Cambodia</p>
               </div>
             </div>
 
             {/* Opening Hours */}
-            <div className="border-1 border-gray-300 rounded-[15px] p-4 flex items-start gap-4" style={{ background: "#fbfef9" }}>
+            <div className="border border-gray-300 rounded-[15px] p-4 flex items-start gap-4" style={{ background: "#fbfef9" }}>
               <div className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0"
                 style={{ background: "#fef0e6", color: "#ff8811" }}>
                 <Clock size={20} />
               </div>
               <div>
                 <p className="font-semibold text-sm" style={{ color: "#000300" }}>Opening Hours</p>
-                <p className="text-sm text-gray-500">Monday – Friday: 9:00 AM – 8:00 PM</p>
-                <p className="text-sm text-gray-500">Saturday: 10:00 AM – 6:00 PM</p>
-                <p className="text-sm text-gray-400">Sunday: Closed</p>
+                <p className="text-sm text-gray-500">Mon–Fri: 9:00 AM – 8:00 PM</p>
+                <p className="text-sm text-gray-500">Sat: 10:00 AM – 6:00 PM</p>
+                <p className="text-sm text-gray-400">Sun: Closed</p>
               </div>
             </div>
 
           </div>
 
-          {/* Quick Support */}
-          <div className="rounded-[15px] p-5"
-            style={{ background: "linear-gradient(135deg, #296eb4 0%, #7b2d26 100%)" }}>
+          <div className="rounded-[15px] p-5" style={{ background: "#296eb4" }}>
             <div className="w-10 h-10 rounded-lg flex items-center justify-center mb-3"
               style={{ background: "rgba(255,255,255,0.18)" }}>
               <MessageCircle size={22} color="white" />
@@ -111,38 +109,40 @@ export default function Contact() {
               Get instant answers through our chat platforms
             </p>
             <div className="flex gap-3">
-              <button
-                className="flex-1 text-white text-sm font-semibold py-2 rounded-lg transition"
-                style={{ background: "rgba(255,255,255,0.15)", border: "1px solid rgba(255,255,255,0.4)" }}
-                onMouseEnter={e => e.target.style.background = "rgba(255,255,255,0.25)"}
-                onMouseLeave={e => e.target.style.background = "rgba(255,255,255,0.15)"}>
-                WhatsApp
-              </button>
-              <button
-                className="flex-1 text-white text-sm font-semibold py-2 rounded-lg transition"
-                style={{ background: "rgba(255,255,255,0.15)", border: "1px solid rgba(255,255,255,0.4)" }}
-                onMouseEnter={e => e.target.style.background = "rgba(255,255,255,0.25)"}
-                onMouseLeave={e => e.target.style.background = "rgba(255,255,255,0.15)"}>
+              <a
+                href="https://t.me/sopia_00"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex-1 text-white text-sm font-semibold py-2 rounded-lg transition text-center"
+                style={{ background: "rgba(255,255,255,0.15)", border: "1px solid rgba(255,255,255,0.4)", textDecoration: "none" }}
+                onMouseEnter={e => e.currentTarget.style.background = "rgba(255,255,255,0.25)"}
+                onMouseLeave={e => e.currentTarget.style.background = "rgba(255,255,255,0.15)"}>
                 Telegram
-              </button>
+              </a>
             </div>
           </div>
 
-          {/* Map Placeholder */}
-          <div className="border-1 border-gray-300 rounded-[15px] h-48 flex flex-col items-center justify-center gap-2"
-            style={{ background: "#f3f4f6" }}>
-            <MapPin size={38} color="#9ca3af" />
-            <p className="text-sm text-gray-400">Map Integration Placeholder</p>
-          </div>
+          <a
+            href="https://www.google.com/maps/search/?api=1&query=CADT+Innovation+Center+Phnom+Penh"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="border border-gray-300 rounded-[15px] h-48 flex flex-col items-center justify-center gap-2 transition"
+            style={{ background: "#f3f4f6", textDecoration: "none" }}
+            onMouseEnter={e => e.currentTarget.style.background = "#e8f1fa"}
+            onMouseLeave={e => e.currentTarget.style.background = "#f3f4f6"}>
+            <MapPin size={38} color="#296eb4" />
+            <p className="text-sm font-semibold text-center px-4" style={{ color: "#296eb4" }}>View CADT on Google Maps</p>
+            <p className="text-xs text-gray-400">Innovation Center · Phnom Penh</p>
+          </a>
+
         </div>
 
-        {/* RIGHT COLUMN – Form */}
-        <div className="col-span-1 border-1 border-gray-300 rounded-[15px] p-7 shadow-sm h-fit"
+        {/* RIGHT COLUMN (Form) */}
+        <div className="lg:col-span-1 border border-gray-300 rounded-[15px] p-6 md:p-7 shadow-sm h-fit"
           style={{ background: "#fbfef9" }}>
           <h2 className="text-2xl font-bold mb-6" style={{ color: "#000300" }}>Send a Message</h2>
 
           <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-
             <div>
               <label className="block text-sm font-semibold mb-1" style={{ color: "#000300" }}>Your Name</label>
               <input
@@ -197,18 +197,16 @@ export default function Contact() {
 
             <button
               type="submit"
-              className="flex py-2 px-4 rounded-lg gap-2 items-center justify-center font-semibold text-sm transition"
+              className="flex py-2 px-4 rounded-lg gap-2 items-center justify-center font-semibold text-sm transition w-full"
               style={{ background: "#296eb4", color: "#fbfef9" }}
-              onMouseEnter={e => e.currentTarget.style.background = "#ff8811"}
-              onMouseLeave={e => e.currentTarget.style.background = "#296eb4"}>
+              onMouseEnter={e => e.currentTarget.style.boxShadow = "0 4px 15px rgba(41, 110, 180, 0.55)"}
+              onMouseLeave={e => e.currentTarget.style.boxShadow = "none"}>
               <Send size={15} />
               Send Message
             </button>
-
           </form>
 
-          {/* Response Note */}
-          <div className="mt-4 border-1 border-gray-300 rounded-lg px-4 py-3 text-sm"
+          <div className="mt-4 border border-gray-300 rounded-lg px-4 py-3 text-sm"
             style={{ color: "#000300" }}>
             <span className="font-bold">Response Time: </span>
             We typically respond within 24 hours during business days.
